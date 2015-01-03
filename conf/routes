@@ -8,7 +8,11 @@ GET     /                           controllers.Application.index
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
+#---------
 # Catalog
+#---------
+# The main index page serving up the HTML file
 GET     /catalog                    controllers.Catalog.index
+# The two main APIs
 GET     /catalog/items              controllers.Catalog.allItems(id: Int ?= 0)
 PUT     /catalog/items              controllers.Catalog.updateItem

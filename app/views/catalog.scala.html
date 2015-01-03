@@ -5,6 +5,7 @@
 }
 
 @main("Catalog", scripts) {
+  <!-- The header -->
   <div class="container">
     <div class="row">
       <div class="col-md-12">
@@ -15,6 +16,7 @@
     </div>
 
     <div class="row">
+      <!-- Left side of the panel where the search field is located -->
       <div class="col-md-4">
         <h2>Searching Criteria</h2>
         <div class="form-group">
@@ -24,16 +26,27 @@
         </div>
       </div>
 
+      <!-- Right side of the panel where the result is shown -->
       <div class="col-md-8" data-bind="visible: itemId().length > 0">
         <h2>Item(s) matching <span data-bind="text: itemId"></span></h2>
-        <p data-bind="visible: matchingItems().length == 0">No matching item.</p>
+        <!-- Message shown when no items matched the search pattern -->
+        <p data-bind="visible: matchingItems().length == 0">
+          No matching item.
+        </p>
+        <!-- Loop through each found items and shown them in individual panels -->
         <div data-bind="foreach: matchingItems">
           <div class="panel panel-default">
+            <!-- The item ID -->
             <div class="panel-heading">
               <h3 class="panel-title" data-bind="text: id"></h3>
             </div>
             <div class="panel-body">
               <form data-bind="submit: update">
+                <!--
+                3 fields visible to clients - title, price and cost.
+                Title and price is editable while cost is a readonly.
+                This form relies on HTML5 elements for validation.
+                -->
                 <div class="form-group">
                   <label for="title">Title</label>
                   <input type="text" class="form-control" id="title"
@@ -50,6 +63,7 @@
                   <input type="number" readonly class="form-control" id="cost"
                     data-bind="value: pricing.cost()">
                 </div>
+                <!-- List of hidden field containing all information regarding a particular item -->
                 <input type="hidden" class="form-control" id="id"
                   data-bind="value: id">
                 <input type="hidden" class="form-control" id="promoPrice"
@@ -58,9 +72,11 @@
                   data-bind="value: pricing.savings">
                 <input type="hidden" class="form-control" id="onSale"
                   data-bind="value: pricing.onSale">
+                <!-- The submit button -->
                 <button type="submit" class="btn btn-default">
                   Update
                 </button>
+                <!-- Text shown when an item is updated successfully -->
                 <span class="text-success" data-bind="visible: recentlyUpdated">
                   Item updated!
                 </span>

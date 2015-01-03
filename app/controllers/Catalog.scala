@@ -25,10 +25,23 @@ object Catalog extends Controller with MongoController {
   import models._
   import models.CatalogFormats._
 
+  /*
+   * The main purpose of this is to serve up an HTML page that will be used to
+   * host all the required Javascripts and so on for user interaction.
+   */
   def index() = Action {
     Ok(views.html.catalog())
   }
 
+  /*****************
+   * The JSON APIs *
+   *****************/
+
+  /*
+   * List all available items if given id 0.
+   * List a particular item if ID is given.
+   * Note: Partial matching is currently not working as expected.
+   */
   def allItems(id: Int) = Action.async {
     val cursor: Cursor[Item] =
       if (id == 0) collection.find(Json.obj()).cursor[Item]
@@ -39,6 +52,10 @@ object Catalog extends Controller with MongoController {
     }
   }
 
+  /*
+   * Passed a JSON document from client. Update the corresponding document from
+   * database.
+   */
   def updateItem() = Action.async(parse.json) { request =>
     request.body.validate[Item].fold(
       errors => {

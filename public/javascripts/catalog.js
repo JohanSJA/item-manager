@@ -1,3 +1,6 @@
+/*
+ * The pricing class corresponding to the pricing table design.
+ */
 function Pricing(data) {
   var self = this;
 
@@ -7,11 +10,15 @@ function Pricing(data) {
   self.savings = data.savings;
   self.onSale = data.on_sale;
 
+  <!-- Minimum price can not be equal or lower than cost -->
   this.minPrice = ko.computed(function() {
     return self.cost() + 0.01
   });
 }
 
+/*
+ * The item class corresponding to the database design.
+ */
 function Item(data) {
   var self = this;
 
@@ -20,7 +27,9 @@ function Item(data) {
   self.pricing = new Pricing(data.pricing);
 
   self.recentlyUpdated = ko.observable(false);
+  // Update the item based on the form data passed in.
   self.update = function(formElement) {
+    // Form a JSON object that match the API requirement.
     var data = {
       "id": Number(formElement.id.value),
       "title": formElement.title.value,
@@ -32,6 +41,7 @@ function Item(data) {
         "on_sale": Number(formElement.onSale.value)
       }
     };
+    // Send the data to the API and update the ViewModel to show the message.
     $.ajax({
       url: "/catalog/items",
       type: "PUT",
@@ -43,6 +53,9 @@ function Item(data) {
   }
 }
 
+/*
+ * The main ViewModel used by Knockout for this application.
+ */
 function CatalogViewModel() {
   var self = this;
   self.itemId = ko.observable("");
