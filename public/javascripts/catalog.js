@@ -18,22 +18,9 @@ function Item(data) {
   self.id = data.id;
   self.title = ko.observable(data.title);
   self.pricing = new Pricing(data.pricing);
-}
 
-function CatalogViewModel() {
-  var self = this;
-  self.itemId = ko.observable("");
-  self.matchingItems = ko.observableArray();
-
-  self.searchMatching = function(formElement) {
-    var itemId = formElement.itemId.value;
-    $.getJSON("/catalog/items?id=" + itemId, function(data) {
-      var mappedItems = $.map(data, function(item) { return new Item(item); });
-      self.matchingItems(mappedItems);
-    });
-  };
-
-  self.updateItem = function(formElement) {
+  self.recentlyUpdated = ko.observable(false);
+  self.update = function(formElement) {
     var data = {
       "id": Number(formElement.id.value),
       "title": formElement.title.value,
@@ -50,8 +37,24 @@ function CatalogViewModel() {
       type: "PUT",
       data: JSON.stringify(data),
       contentType: "application/json"
+    }).done(function(data) {
+      self.recentlyUpdated(true);
     });
   }
+}
+
+function CatalogViewModel() {
+  var self = this;
+  self.itemId = ko.observable("");
+  self.matchingItems = ko.observableArray();
+
+  self.itemId.subscribe(function(newValue) {
+    var itemId = newValue;
+    $.getJSON("/catalog/items?id=" + itemId, function(data) {
+      var mappedItems = $.map(data, function(item) { return new Item(item); });
+      self.matchingItems(mappedItems);
+    });
+  });
 }
 
 ko.applyBindings(new CatalogViewModel());
