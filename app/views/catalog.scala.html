@@ -28,9 +28,9 @@
       </div>
 
       <div class="col-md-8" data-bind="visible: itemId().length > 0">
-        <h2>Products matching <span data-bind="text: itemId"></span></h2>
-        <p data-bind="visible: matchingProducts().length == 0">No matching product.</p>
-        <div data-bind="foreach: matchingProducts">
+        <h2>Items matching <span data-bind="text: itemId"></span></h2>
+        <p data-bind="visible: matchingItems().length == 0">No matching product.</p>
+        <div data-bind="foreach: matchingItems">
           <div class="panel panel-default">
             <div class="panel-heading">
               <h3 class="panel-title" data-bind="text: id"></h3>
@@ -39,22 +39,31 @@
               <form data-bind="submit: $root.updateItem">
                 <div class="form-group">
                   <label for="title">Title</label>
-                  <input type="text" class="form-control" id="title" data-bind="value: title">
+                  <input type="text" class="form-control" id="title"
+                    data-bind="value: title" required pattern="^[A-Za-z\d].*"
+                    title="Title must not be empty and starts with alphanumeric character.">
                 </div>
                 <div class="form-group">
                   <label for="price">Price</label>
-                  <input type="number" class="form-control" id="price" step="0.01"
-                    data-bind="value: pricing.price">
+                  <input type="number" class="form-control" id="price"
+                    data-bind="value: pricing.price(), attr: { min: pricing.minPrice() }" step="0.01">
                 </div>
                 <div class="form-group">
                   <label for="cost">Cost</label>
-                  <input type="number" readonly class="form-control" id="cost" data-bind="value: pricing.cost">
+                  <input type="number" readonly class="form-control" id="cost"
+                    data-bind="value: pricing.cost()">
                 </div>
-                <input type="hidden" class="form-control" id="id" data-bind="value: id">
-                <input type="hidden" class="form-control" id="promo_price" data-bind="value: pricing.promo_price">
-                <input type="hidden" class="form-control" id="savings" data-bind="value: pricing.savings">
-                <input type="hidden" class="form-control" id="on_sale" data-bind="value: pricing.on_sale">
-                <button type="submit" class="btn btn-default">Update</button>
+                <input type="hidden" class="form-control" id="id"
+                  data-bind="value: id">
+                <input type="hidden" class="form-control" id="promoPrice"
+                  data-bind="value: pricing.promoPrice">
+                <input type="hidden" class="form-control" id="savings"
+                  data-bind="value: pricing.savings">
+                <input type="hidden" class="form-control" id="onSale"
+                  data-bind="value: pricing.onSale">
+                <button type="submit" class="btn btn-default">
+                  Update
+                </button>
               </form>
             </div>
           </div>
