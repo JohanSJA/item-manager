@@ -25,6 +25,10 @@ object Catalog extends Controller with MongoController {
   import models._
   import models.CatalogFormats._
 
+  def index() = Action {
+    Ok(views.html.catalog())
+  }
+
   def allItems(id: Int) = Action.async {
     val cursor: Cursor[Item] =
       if (id == 0) collection.find(Json.obj()).cursor[Item]

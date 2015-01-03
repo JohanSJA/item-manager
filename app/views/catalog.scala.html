@@ -1,0 +1,58 @@
+@()
+
+@scripts = {
+  <script src="@routes.Assets.at("javascripts/catalog.js")"></script>
+}
+
+@main("Catalog", scripts) {
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="page-header">
+          <h1>Catalog</h1>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <h2>Searching Criteria</h2>
+        <form data-bind="submit: searchMatching">
+          <div class="form-group">
+            <label for="itemId">Product ID</label>
+            <input type="text" class="form-control" id="itemId"
+                placeholder="Enter Product ID" data-bind="textInput: itemId">
+          </div>
+          <button type="submit" class="btn btn-default">Search</button>
+        </form>
+      </div>
+      <div class="col-md-8" data-bind="visible: itemId().length > 0">
+        <h2>Products matching <span data-bind="text: itemId"></span></h2>
+        <p data-bind="visible: matchingProducts().length == 0">No matching product.</p>
+        <div data-bind="foreach: matchingProducts">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title" data-bind="text: id"></h3>
+            </div>
+            <div class="panel-body">
+              <form>
+                <div class="form-group">
+                  <label for="title">Title</label>
+                  <input type="text" class="form-control" data-bind="value: title">
+                </div>
+                <div class="form-group">
+                  <label for="price">Price</label>
+                  <input type="number" class="form-control" data-bind="value: pricing.price">
+                </div>
+                <div class="form-group">
+                  <label for="cost">Cost</label>
+                  <input type="number" disabled class="form-control" data-bind="value: pricing.cost">
+                </div>
+                <button type="submit" class="btn btn-default">Update</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

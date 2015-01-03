@@ -1,4 +1,4 @@
-@(title: String)(content: Html)
+@(title: String, scripts: Html = Html(""))(content: Html)
 
 <!DOCTYPE html>
 
@@ -25,7 +25,10 @@
 
     <!-- jQuery (necessary for Bootstrap's Javascript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <!-- Include all compiled plugins -->
+    <!-- Bootstrap compiled plugins -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <!-- Knockout -->
+    <script src="https://oss.maxcdn.com/knockout/3.2.0/knockout.js"></script>
+    @scripts
   </body>
 </html>
