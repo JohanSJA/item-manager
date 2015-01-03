@@ -10,3 +10,4 @@ GET     /assets/*file               controllers.Assets.at(path="/public", file)
 
 # Catalog
 GET     /catalog/items              controllers.Catalog.allItems(id: Int ?= 0)
+PUT     /catalog/items              controllers.Catalog.updateItem

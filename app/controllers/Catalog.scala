@@ -34,4 +34,19 @@ object Catalog extends Controller with MongoController {
       Ok(Json.toJson(items))
     }
   }
+
+  def updateItem() = Action.async(parse.json) { request =>
+    request.body.validate[Item].fold(
+      errors => {
+        Future.successful(BadRequest(JsError.toFlatJson(errors)))
+      },
+      item => {
+        val modifier = Json.obj("$set" -> item)
+        collection.update(Json.obj("id" -> item.id), modifier).map { lastError =>
+          if (!lastError.updatedExisting) BadRequest("No item is updated.")
+          else Ok("OK....")
+        }
+      }
+    )
+  }
 }
