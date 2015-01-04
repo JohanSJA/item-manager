@@ -1,4 +1,7 @@
-This is your new Play application
-=================================
+Item Manager
+============
 
-This file will be packaged with your application, when using `activator dist`.
+Built with
+ - Play Framework
+ - Bootstrap (with Bootswatch Flatly theme)
+ - Knockout.js
